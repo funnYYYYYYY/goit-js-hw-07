@@ -47,11 +47,9 @@ const creatingPictureAccordingTemplate = (flower) =>
   );
 
 const galleryFlower = document.querySelector(".gallery");
-
 const galleryLayout = creatingPictureAccordingTemplate(galleryItems);
 
 galleryFlower.insertAdjacentHTML("beforeend", galleryLayout);
-
 galleryFlower.addEventListener("click", clickGallery);
 
 function clickGallery(e) {
@@ -61,14 +59,39 @@ function clickGallery(e) {
   if (!isFlowerSwatchEl) {
     return;
   }
-  console.log(target.dataset.source);
 
   const targetUrl = target.dataset.source;
-  console.log(targetUrl);
 
+  const instance = basicLightbox.create(`
+    <img src = '${targetUrl}'>
+`);
+
+  modalShow(targetUrl);
+}
+
+let instance;
+
+function modalShow(e) {
+  instance = basicLightbox.create(
+    `
+    <img src = '${e}' width="800" height="600">
+    `,
+    {
+      onShow: (instance) => {
+        document.addEventListener("keydown", onEscKeyPress);
+      },
+      onClose: (instance) => {
+        document.addEventListener("keydown", onEscKeyPress);
+      },
+    }
+  );
   instance.show();
 }
 
-const instance = basicLightbox.create(`
-    <img src = '${targetUrl}'>
-`);
+function onEscKeyPress(e) {
+  e.preventDefault();
+
+  if (e.key === "Escape") {
+    instance.close();
+  }
+}
