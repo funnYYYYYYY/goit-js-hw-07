@@ -36,3 +36,12 @@ const galleryFlower = document.querySelector(".gallery");
 const galleryLayout = creatingPictureAccordingTemplate(galleryItems);
 
 galleryFlower.insertAdjacentHTML("beforeend", galleryLayout);
+
+const lightBox = new SimpleLightbox(".gallery a", {
+  captions: true,
+  captionType: "attr",
+  captionPosition: "bottom",
+  captionDelay: 250,
+  captionsData: "alt",
+  docClose: true,
+});
